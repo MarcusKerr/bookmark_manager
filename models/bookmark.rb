@@ -22,8 +22,7 @@ class Bookmark
   end
 
   def self.validate(url)
-    url =~ /\A#{URI::regexp(['http', 'https'])}\z/
+    return false unless url =~ /\A#{URI::regexp(['http', 'https'])}\z/
+    add(url)
   end
-
- 
 end
