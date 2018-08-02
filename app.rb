@@ -1,9 +1,14 @@
 # Carry on here in Walkthrough: We can now flesh out the route, saving the submitted data to the database:
 # Controller class
 require 'sinatra/base'
-require './lib/bookmark'
+require 'sinatra/flash'
+require './models/bookmark'
+
 
 class BookmarkManager < Sinatra::Base
+  register Sinatra::Flash
+  enable :sessions
+
   get '/' do
     redirect '/bookmarks'
   end
@@ -19,8 +24,13 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/bookmarks' do
-    Bookmark.add(params[:url])
-    redirect '/bookmarks'
+    if Bookmark.validate(params[:url])
+      Bookmark.add(params[:url])
+      redirect '/bookmarks'
+    else
+      flash[:invalid_url] = "Invalid URL"
+      redirect '/bookmarks/new'
+    end
   end
 
   run! if app_file == $0

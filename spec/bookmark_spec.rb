@@ -1,4 +1,4 @@
-require 'bookmark'
+require './models/bookmark'
 
 describe Bookmark do
   describe '#all' do
