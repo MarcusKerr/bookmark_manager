@@ -3,19 +3,20 @@ require 'bookmark'
 describe Bookmark do
   describe '#all' do
     it 'shows all bookmarks in an array' do
-      connection = PG.connect(dbname: 'bookmark_manager_test')
-
-      expect(Bookmark.all).to include('http://makersacademy.com')
-      expect(Bookmark.all).to include('http://destroyallsoftware.com')
-      expect(Bookmark.all).to include('http://google.com')
-
+      insert_test_bookmarks
       expected_bookmarks = [
         'http://makersacademy.com',
-        'http://google.com',
-        'http://destroyallsoftware.com'
+        'http://destroyallsoftware.com',
+        'http://google.com'
       ]
-
       expect(Bookmark.all).to eq expected_bookmarks
     end
   end
+
+  describe '#add' do
+    it ' Adds a bookmark to the database' do
+      Bookmark.add('http://Marekisthebest.com')
+      expect(Bookmark.all).to include('http://Marekisthebest.com')
+    end
+  end 
 end
